@@ -17,14 +17,14 @@
   
   <ion-content >
       <ion-list >
-          <ion-item-sliding *ngFor="let post of post$ | async">
+          <ion-item-sliding *ngFor="let post of post$ | async" (click)="goPost(post)">
               <ion-item detail button > 
                   <ion-label>
-                    <ion-text >
-                      <h3>{{post.title}}</h3>
+                    <ion-text color="primary">
+                      <h3>{{post?.title}}</h3>
                     </ion-text>
                     
-                      <p>{{post.body}}</p>
+                      <p>{{post?.body}}</p>
                     
                   </ion-label>
                 </ion-item>

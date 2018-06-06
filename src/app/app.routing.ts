@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
+  // rajout du path detail avec l'id en param
   { path: '',
     loadChildren: './features/index-page/index-page.module#IndexPageModule'
   },

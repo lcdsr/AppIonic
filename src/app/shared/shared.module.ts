@@ -12,12 +12,13 @@ const COMPONENTS: any[] = [
 @NgModule({
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   declarations: [...COMPONENTS],
   exports: [
     ...COMPONENTS,
-    CommonModule
+    CommonModule,
+    HttpClientModule
   ],
   providers:[GenericHttpService]
 })

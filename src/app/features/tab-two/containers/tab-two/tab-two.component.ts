@@ -16,4 +16,9 @@ export class TabTwoComponent implements OnInit {
     this.post$ = this.http.get('https://jsonplaceholder.typicode.com','posts');
   }
 
+  goPost(post:any):void{
+    //ICI ON FAIT LE REDIRECT SUR LA NOUVELLE ROUTE
+    //this.routeur.navigate(['/detail', mettre l'id], post (sa envoi directement lobjet plus besoin de faire une requete au httpmodule))
+    console.log('::',post);
+  }
 }
