@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GenericHttpService } from '../../../../shared/generic-http/generic-http.service';
 
 @Component({
   selector: 'app-tab-two',
@@ -7,9 +9,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TabTwoComponent implements OnInit {
 
-  constructor() { }
+  public post$: Observable<any[]>;
+  constructor(public http: GenericHttpService) { }
 
-  ngOnInit() {
+  ngOnInit():void {
+    this.post$ = this.http.get('https://jsonplaceholder.typicode.com','posts');
   }
 
 }
