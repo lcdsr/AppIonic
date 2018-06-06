@@ -1,7 +1,13 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { PostDetailComponent } from './containers/post-detail/post-detail.component';
 
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path:'',
+    component: PostDetailComponent,
+  }
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
