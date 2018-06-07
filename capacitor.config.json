@@ -1,0 +1,6 @@
+{
+  "appId": "ch.nomade.r.appionic",
+  "appName": "AppIonic",
+  "bundledWebRuntime": false,
+  "webDir": "www"
+}
