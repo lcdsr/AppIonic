@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Plugins, GeolocationPosition, Capacitor } from '@capacitor/core';
 import { Observable, of, from as fromPromise} from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-tab-one',
@@ -12,7 +12,7 @@ import { LoadingController } from '@ionic/angular';
 export class TabOneComponent implements OnInit {
 
   public coordinates$: Observable<GeolocationPosition>;
-  constructor(public loadingController: LoadingController) { }
+  constructor(public loadingController: LoadingController, public alertController: AlertController) { }
 
 
 
@@ -22,13 +22,25 @@ export class TabOneComponent implements OnInit {
    .then((loader: any) => {
      // get position
      return this.getCurrentPosition()
-       // finaly dismiss() loader if position exist
-       .then(position => (position) ? loader.dismiss() : null);
+       .then(position => {
+         // fermer loader + return position
+         loader.dismiss();
+         return position;
+       })
+       // if error
+       .catch(err => {
+         // fermer loader + return NULL
+         loader.dismiss();
+         return null;
+       });
    })
+   .then(position => (!position) ? this.presentAlert('Capacitor not work. Geoposition unavailable') : null)
    // do not forget to handle promise rejection
-   .catch(err => console.log(err));
+   .catch(err => {
+      this.presentAlert('loader not work')
+   });
     
-    this.watchPosition();
+    //this.watchPosition();
   }
   async displayLoader() {
     const loading = await this.loadingController.create({
@@ -39,6 +51,15 @@ export class TabOneComponent implements OnInit {
     return  loading
   }
  
+  async  presentAlert(error:string) {
+  
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: error,
+      buttons: ['OK']
+    });
+    return await alert.present();
+  }
 
 
   async getCurrentPosition(): Promise<any> {
