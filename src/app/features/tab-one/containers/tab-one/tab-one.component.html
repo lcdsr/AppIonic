@@ -17,5 +17,5 @@
 
 <ion-content >
   <!-- faire  un input pour envoier les coordonées  -->
-  <app-map></app-map>
+  <app-map *ngIf="(coordinates$|async) as coords" [coords]="coords"></app-map>
 </ion-content>

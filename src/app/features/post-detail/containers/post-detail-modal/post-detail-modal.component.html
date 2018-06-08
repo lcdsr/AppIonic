@@ -9,7 +9,7 @@
     </ion-toolbar>
   </ion-header>
   
-  <ion-content padding>
+  <ion-content padding  *ngIf= "(user$ | async) as user">
    
     <p>{{ user$|async|json }}</p>
     <ion-button (click)="dismiss()">Dismiss Modal</ion-button>
