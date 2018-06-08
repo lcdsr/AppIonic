@@ -18,6 +18,9 @@ export class MapComponent implements AfterViewInit {
   }
 
   initMap(): void {
+    if (!google) {
+      return;
+    }
     const POSITION = {lat: this.coords.latitude, lng: this.coords.longitude};
     const map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,

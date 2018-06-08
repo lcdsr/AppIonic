@@ -34,10 +34,10 @@ export class TabOneComponent implements OnInit {
          return null;
        });
    })
-   .then(position => (!position) ? this.presentAlert('Capacitor not work. Geoposition unavailable') : null)
+   .then(position => (position instanceof Error) ? this.presentAlert(position.message) : null)
    // do not forget to handle promise rejection
    .catch(err => {
-      this.presentAlert('loader not work')
+      this.presentAlert(err.message)
    });
     
     //this.watchPosition();
@@ -51,14 +51,15 @@ export class TabOneComponent implements OnInit {
     return  loading
   }
  
-  async  presentAlert(error:string) {
+  async  presentAlert(error:string) : Promise<HTMLIonAlertElement> {
   
     const alert = await this.alertController.create({
       header: 'Alert',
       message: error,
       buttons: ['OK']
     });
-    return await alert.present();
+     await alert.present();
+     return alert;
   }
 
 
@@ -69,7 +70,12 @@ export class TabOneComponent implements OnInit {
       console.log('Err: plugin not available');
       return of(new Error('Err: plugin not available'));
     }
-    const POSITION = Plugins.Geolocation.getCurrentPosition();
+    const POSITION = Plugins.Geolocation.getCurrentPosition()
+    // handle Capacitor Errors
+    .catch(err => {
+      console.log('ERR', err);
+      return new Error(err.message || 'message perso');
+    });
     
     console.log(Plugins.Geolocation.getCurrentPosition());
     
