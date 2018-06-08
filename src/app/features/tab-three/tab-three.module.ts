@@ -7,7 +7,7 @@ import { TabThreeComponent } from './containers/tab-three/tab-three.component';
 @NgModule({
   imports: [
     CommonModule,
-    TabThreeRoutingModule
+    TabThreeRoutingModule,
   ],
   declarations: [TabThreeComponent],
   schemas : [CUSTOM_ELEMENTS_SCHEMA]

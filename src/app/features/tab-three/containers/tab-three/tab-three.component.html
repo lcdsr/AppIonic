@@ -16,5 +16,12 @@
   </ion-header>
   
   <ion-content padding>
-    <p>Tab Three work! w</p>
+    <ion-button padding (click)="watchAccel()">View User Profil</ion-button>
+    <ion-text>
+      <b>x</b>: {{accel.x}} <b>y</b>: {{accel.y}} <b>z</b>: {{accel.z}}
+    </ion-text>
+    <ion-button padding (click)="watchOrientation()">View User Profil</ion-button>
+    <ion-text>
+      <b>alpha</b>: {{ori.alpha}} <b>beta</b>: {{ori.beta}} <b>gamma</b>: {{ori.gamma}}
+    </ion-text>
   </ion-content>
