@@ -1,7 +1,15 @@
-import { Component, OnInit, NgZone } from '@angular/core';
-import { Plugins, MotionEventResult, MotionOrientationEventResult, MotionPlugin , Capacitor } from '@capacitor/core';
+import { Component, OnInit } from '@angular/core';
+import { Capacitor, Plugins, GeolocationPosition } from '@capacitor/core';
+import { of, Observable } from 'rxjs';
+// import custom plugin
+import { MotionPWA, IMotionPWADatasOptions } from '../../../../../plugins/motion/pwa/motion-pwa.plugin';
+import { CameraPWA } from '../../../../../plugins/camera/pwa/camera-pwa.plugin';
+// Instantiate custom plugin
 
+const motionPWA = new MotionPWA();
+const cameraPWA = new CameraPWA('app-tab-three');
 
+const { Motion, Toast } = Capacitor.Plugins;
 
 @Component({
   selector: 'app-tab-three',
@@ -10,50 +18,47 @@ import { Plugins, MotionEventResult, MotionOrientationEventResult, MotionPlugin 
 })
 export class TabThreeComponent implements OnInit {
 
-  accel = null
-  ori = null
+  public motionDatas: Observable<IMotionPWADatasOptions> = of({message: 'loading...'});
 
-  constructor(private zone: NgZone) { }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MotionPage');
-  }
-
-  watchAccel() {
-    const watchListener = Plugins.Motion.addListener('accel', (values) => {
-      this.zone.run(() => {
-        const v = {
-          x: values.acceleration.x.toFixed(4),
-          y: values.acceleration.y.toFixed(4),
-          z: values.acceleration.z.toFixed(4)
-        }
-        this.accel = v;
-      });
-    });
-
-    setTimeout(() => {
-      watchListener.remove();
-    }, 5000);
-  }
-
-  watchOrientation() {
-    const watchListener = Plugins.Motion.addListener('orientation', (values) => {
-      this.zone.run(() => {
-        const v = {
-          alpha: values.alpha.toFixed(4),
-          beta: values.beta.toFixed(4),
-          gamma: values.gamma.toFixed(4)
-        }
-        this.ori = v;
-      });
-    });
-    setTimeout(() => {
-      watchListener.remove();
-    }, 5000);
-  }
+  constructor() { }
 
   ngOnInit() {
-   
+    this.startMotion();
   }
-  MotionEventResult
+
+  startMotion() {
+    const ready = Capacitor.isPluginAvailable('Motion');
+    if (!ready) {
+      return this.handlError();
+    }
+    Motion.addListener('orientation', (data) => {
+      console.log('::::: data motion', data);
+      this.motionDatas = of(data);
+    });
+  }
+
+  async handlError() {
+    const ERROR_MSG = 'error Capacitaor Motion not available';
+    this.motionDatas = of({message: ERROR_MSG});
+    this.show({message: ERROR_MSG});
+    console.log('error Capacitaor Motion not available');
+    // use custom plugin
+    await motionPWA.start();
+    this.motionDatas = motionPWA.datas;
+  }
+
+  async show(option: {message: string} = {message: 'Plugin not working'}) {
+    await Toast.show({
+      text: option.message
+    });
+  }
+
+  async startCamera() {
+    await cameraPWA.start();
+    
+  }
+
+   savePicture() {
+     console.log('picture saved!');
+  }
 }
