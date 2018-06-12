@@ -19,6 +19,7 @@ const { Motion, Toast } = Capacitor.Plugins;
 export class TabThreeComponent implements OnInit {
 
   public motionDatas: Observable<IMotionPWADatasOptions> = of({message: 'loading...'});
+  public cameraPlugin = cameraPWA;
 
   constructor() { }
 
@@ -58,7 +59,12 @@ export class TabThreeComponent implements OnInit {
     
   }
 
-   savePicture() {
-     console.log('picture saved!');
+  savePicture() {
+    console.log('picture saved!');
+    if (!cameraPWA.img.src) {
+      return console.log('err');
+    }
+    localStorage.setItem('ionic-img', cameraPWA.img.src);
+    console.log('img url save', cameraPWA.img.src);
   }
 }
