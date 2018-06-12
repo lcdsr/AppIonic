@@ -20,6 +20,7 @@ export class TabThreeComponent implements OnInit {
 
   public motionDatas: Observable<IMotionPWADatasOptions> = of({message: 'loading...'});
   public cameraPlugin = cameraPWA;
+  public img: string
 
   constructor() { }
 
