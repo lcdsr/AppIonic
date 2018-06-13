@@ -1,5 +1,5 @@
 {
-  "name": "IonicApp",
+  "name": "ionic-app-base",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "http://ionicframework.com/",
@@ -7,6 +7,7 @@
     "ng": "ng",
     "start": "ionic serve",
     "build": "ionic build",
+    "deploy": "ng build --prod --base-href https://github.com/lcdsr/AppIonic/ && cd .. && sh AppIonic/deploy-gh.sh",
     "test": "ng test",
     "lint": "ng lint",
     "dev": "http-server www",
